@@ -17,13 +17,11 @@ def client_get():
     resp = []
     for data in client_data:
         dataObj = {}
-        dataObj['createdAt'] = data[0]
         dataObj['firstName'] = data[1]
         dataObj['lastName'] = data[2]
         dataObj['pictureUrl']  = data[3]
         dataObj['username'] = data[4]
         dataObj['email'] = data[5]
-        dataObj['password'] = data[6]
         resp.append(dataObj)
     return jsonify(resp), 200
 
