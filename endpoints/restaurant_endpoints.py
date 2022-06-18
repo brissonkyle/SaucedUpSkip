@@ -55,7 +55,7 @@ def restaurant_post():
         return jsonify('You must add a bio')
     if not phone_num:
         return jsonify('You must add a phone number')
-    if phone_num(phone_num = str):
+    if not phone_num.isnumeric():
         return jsonify('Please input a valid phone number')
     run_query('INSERT INTO restaurant (email,name,pictureUrl,username,email,password) VALUES (?,?,?,?,?,?)', [name,address,city,email,restaurant_hash,username,bio,phone_num])
     return jsonify('Restaurant Created'), 200

@@ -47,18 +47,14 @@ def run_query(statement, args=None):
 
     except mariadb.IntegrityError as e:
         print("Integrity error")
-        if ("CONSTRAINT `user_CHECK_username`" in e.msg):
-            print("Error, all usernames must start with the letter J")
-        elif ("CONSTRAINT `users_CHECK_age`" in e.msg):
-            print("Error, user is outside of acceptable age range")
-        elif ("Duplicate entry" in e.msg):
+        if ("Duplicate entry" in e.msg):
             print("User already exists")
         else:
             print(e.msg)
 
     except mariadb.ProgrammingError as e:
         if ("SQL syntax" in e.msg):
-            print("Apparently you cannot program")
+            print("SQL Syntax Error")
         else:
             print("Got a different programming error")
         print(e.msg)
