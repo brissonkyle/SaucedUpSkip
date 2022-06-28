@@ -53,10 +53,26 @@ def client_post():
     run_query('INSERT INTO client (firstName,lastName,pictureUrl,username,email,password) VALUES (?,?,?,?,?,?)', [firstName,lastName,pictureUrl,username,email,password])
     return jsonify('User Created'), 200
 
-# @app.patch('/api/client')
-# def client_patch():
+@app.patch('/api/client')
+def client_patch():
+    client_resp = request.json
+    firstName = client_resp.get('firstName')
+    lastName = client_resp.get('lastName')
+    pictureUrl = client_resp.get('pictureUrl')
+    username = client_resp.get('username')
+    password = client_resp.get('password')
+    client_id = client_resp.get('id')
+    if (firstName,lastName,pictureUrl,username,password) == client_id:
+        run_query('UPDATE client SET firstName=?, lastName=?, pictureUrl=?, username=?, password=?', [firstName,lastName,pictureUrl,username,password])
+        return jsonify('Updated User'), 204
 
 
-# @app.delete('/api/client')
-# def client_delete():
-#     return
+@app.delete('/api/client')
+def client_delete():
+    client_resp = request.json
+    token = client_resp.get('token')
+    if token:
+        run_query('DELETE FROM client_session WHERE token=?', [token])
+        return jsonify('Token deleted'), 204
+    if not token:
+        return jsonify('Must provide a valid session token'), 401

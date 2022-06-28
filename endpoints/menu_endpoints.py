@@ -22,18 +22,17 @@ def menu_get():
 @app.post('/api/menu')
 def menu_post():
     menu_resp = request.json
+    restaurant_id = menu_resp.get('restaurant_id')
     name = menu_resp.get('name')
     description = menu_resp.get('description')
     price = menu_resp.get('price')
     imageUrl = menu_resp.get('imageUrl')
-    restaurant_id = run_query('SELECT restaurant_id FROM restaurant_session')
     token = run_query('SELECT token FROM restaurant_session WHERE restaurant_id=?', [restaurant_id])
     if token:
-        result = run_query('INSERT INTO menu_item (name,description,price,imageUrl) VALUES (?,?,?,?)', [name,description,price,imageUrl])
-        return jsonify(result), 201
+        run_query('INSERT INTO menu_item (restaurant_id,name,description,price,imageUrl) VALUES (?,?,?,?,?)', [restaurant_id,name,description,price,imageUrl])
+        return jsonify('Item Created'), 201
     if not token:
         return jsonify('Must provide a valid session token'), 401
-    return jsonify('Failed to make an item'), 400
 
 
 # @app.patch('/api/menu')

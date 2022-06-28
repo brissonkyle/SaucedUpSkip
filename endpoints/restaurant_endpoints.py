@@ -62,6 +62,6 @@ def restaurant_post():
     return jsonify('Restaurant Created'), 200
 
 
-# @app.patch('/api/restaurant')
-# def restaurant_patch():
-#     return
+@app.patch('/api/restaurant')
+def restaurant_patch():
+    return
