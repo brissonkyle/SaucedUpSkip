@@ -2,13 +2,10 @@ from flask import Flask , Response , jsonify , json ,  request
 from helpers.db_helpers import run_query
 import sys
 from flask_cors import CORS
-import bcrypt
 import uuid
 from app import app
+# import bcrypt
 
-def grabId():
-        client_id = run_query('SELECT client_id FROM client')
-        return(client_id)
 
 # CLIENT SIDE ENDPOINTS
 @app.get('/api/client')
@@ -17,6 +14,7 @@ def client_get():
     resp = []
     for data in client_data:
         dataObj = {}
+        dataObj['client_id'] = data[0]
         dataObj['firstName'] = data[1]
         dataObj['lastName'] = data[2]
         dataObj['pictureUrl']  = data[3]

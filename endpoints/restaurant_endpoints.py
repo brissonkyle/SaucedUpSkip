@@ -2,7 +2,6 @@ from flask import Flask , Response , jsonify , json ,  request
 from helpers.db_helpers import run_query
 import sys
 from flask_cors import CORS
-import bcrypt
 import uuid
 from app import app
 
@@ -28,6 +27,7 @@ def restaurant_get():
 def restaurant_post():
     restaurant_resp = request.json
     email = restaurant_resp.get('email')
+    # USING HASH AND SALT TO ENCRYPT RESTAURANT PASSWORD FROM THE DATABASE
     # salt = bcrypt.gensalt()
     # restaurant_hash = bcrypt.hashpw(password.encode(), salt)
     password = restaurant_resp.get('password')
@@ -53,7 +53,7 @@ def restaurant_post():
     if not phone_num:
         return jsonify('You must add a phone number')
     if not phone_num.isnumeric():
-        return jsonify('Please input a valid phone number')
+        return jsonify('Please input a valid phone number containing no dashes')
     if not banner_url:
         pass
     if not profileUrl:
