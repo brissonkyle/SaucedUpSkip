@@ -61,9 +61,8 @@ def client_patch():
     pictureUrl = client_resp.get('pictureUrl')
     username = client_resp.get('username')
     password = client_resp.get('password')
-    client_id = client_resp.get('id')
-    if (firstName,lastName,pictureUrl,username,password) == client_id:
-        run_query('UPDATE client SET firstName=?, lastName=?, pictureUrl=?, username=?, password=?', [firstName,lastName,pictureUrl,username,password])
+    if (firstName,lastName,pictureUrl,username,password):
+        run_query('UPDATE client SET firstName=?, lastName=?, pictureUrl=?, username=?, password=? WHERE id=?', [firstName,lastName,pictureUrl,username,password])
         return jsonify('Updated User'), 204
 
 
@@ -71,8 +70,9 @@ def client_patch():
 def client_delete():
     client_resp = request.json
     token = client_resp.get('token')
+    id = client_resp.get('id')
     if token:
-        run_query('DELETE FROM client_session WHERE token=?', [token])
-        return jsonify('Token deleted'), 204
+        run_query('DELETE FROM client WHERE id=?', [id])
+        return jsonify('User deleted'), 201
     if not token:
-        return jsonify('Must provide a valid session token'), 401
+        return jsonify('Must provide a valid token'), 401

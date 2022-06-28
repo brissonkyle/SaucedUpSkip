@@ -19,9 +19,9 @@ def order_get():
         resp.append(dataObj)
     return jsonify(resp), 200
 
-# @app.post('/api/order')
-# def order_post():
-#     return
+@app.post('/api/order')
+def order_post():
+    return
 
 # @app.patch('/api/order')
 # def order_patch():
